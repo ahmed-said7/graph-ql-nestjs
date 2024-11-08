@@ -14,6 +14,8 @@ const apollo_1 = require("@nestjs/apollo");
 const lesson_module_1 = require("./lessons/lesson.module");
 const user_module_1 = require("./users/user.module");
 const auth_module_1 = require("./auth/auth.module");
+const base_filter_1 = require("./common/base-filter");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
+        providers: [{ provide: core_1.APP_FILTER, useClass: base_filter_1.AppExceptionsFilter }],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
