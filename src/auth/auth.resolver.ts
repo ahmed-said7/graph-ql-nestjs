@@ -14,6 +14,7 @@ export class AuthResolver {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    console.log(user);
     if (user.password != body.password) {
       throw new NotFoundException('Invalid password');
     }

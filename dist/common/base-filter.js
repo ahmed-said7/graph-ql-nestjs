@@ -12,10 +12,10 @@ const core_1 = require("@nestjs/core");
 const graphql_1 = require("@nestjs/graphql");
 let AppExceptionsFilter = class AppExceptionsFilter extends core_1.BaseExceptionFilter {
     catch(exception, host) {
+        const gqlHost = graphql_1.GqlArgumentsHost.create(host);
+        gqlHost.getInfo();
         const object = {};
         object.code = 400;
-        const ctx = graphql_1.GqlArgumentsHost.create(host).getContext();
-        const res = ctx.res;
         if (exception?.response?.message &&
             Array.isArray(exception.response.message)) {
             this.handleNestError(exception.response, object);
@@ -26,7 +26,7 @@ let AppExceptionsFilter = class AppExceptionsFilter extends core_1.BaseException
         else {
             this.internalError(object);
         }
-        res.json(object);
+        throw new common_1.HttpException(object, object.code);
     }
     handleNestError(exception, object) {
         object.message = exception.message.join(' and ');
@@ -37,7 +37,7 @@ let AppExceptionsFilter = class AppExceptionsFilter extends core_1.BaseException
         object.code = exception.getStatus();
     }
     internalError(object) {
-        object.message = object.message || `internal server error`;
+        object.message = object.message || 'Internal server error';
         object.code = 500;
     }
 };

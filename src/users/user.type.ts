@@ -9,5 +9,5 @@ export class UserType {
   name: string;
 
   @Field()
-  password: number;
+  password: string;
 }

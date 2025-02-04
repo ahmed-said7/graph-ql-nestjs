@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { GqlArgumentsHost } from '@nestjs/graphql';
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
+import { GraphQLResolveInfo } from 'graphql';
 
 interface ServerError {
   message?: string;
@@ -8,12 +9,17 @@ interface ServerError {
 }
 
 @Catch()
-export class AppExceptionsFilter extends BaseExceptionFilter {
+export class AppExceptionsFilter
+  extends BaseExceptionFilter
+  implements GqlExceptionFilter
+{
   catch(exception: any, host: ArgumentsHost): void {
+    const gqlHost = GqlArgumentsHost.create(host);
+    gqlHost.getInfo<GraphQLResolveInfo>();
+
     const object: ServerError = {};
     object.code = 400;
-    const ctx = GqlArgumentsHost.create(host).getContext();
-    const res = ctx.res;
+
     if (
       exception?.response?.message &&
       Array.isArray(exception.response.message)
@@ -24,8 +30,12 @@ export class AppExceptionsFilter extends BaseExceptionFilter {
     } else {
       this.internalError(object);
     }
-    res.json(object);
+
+    // In GraphQL, you don't have direct access to the HTTP response object.
+    // Instead, you can throw a new error or modify the exception.
+    throw new HttpException(object, object.code);
   }
+
   handleNestError(
     exception: { message: string[]; statusCode: number },
     object: ServerError,
@@ -33,12 +43,14 @@ export class AppExceptionsFilter extends BaseExceptionFilter {
     object.message = exception.message.join(' and ');
     object.code = exception.statusCode;
   }
+
   handleHttpException(exception: HttpException, object: ServerError) {
     object.message = exception.message;
     object.code = exception.getStatus();
   }
+
   internalError(object: ServerError) {
-    object.message = object.message || `internal server error`;
+    object.message = object.message || 'Internal server error';
     object.code = 500;
   }
 }

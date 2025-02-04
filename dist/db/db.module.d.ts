@@ -1,1 +1,2 @@
-export declare class DbModule {}
+export declare class DbModule {
+}

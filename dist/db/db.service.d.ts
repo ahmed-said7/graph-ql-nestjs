@@ -1,6 +1,10 @@
-import { LessonType } from 'src/lessons/lesson.type';
-import { UserType } from 'src/users/user.type';
+import { BookDto } from './dto/book.dto';
+import { UserDto } from './dto/user.dto';
+import { InventoryDto } from './dto/inventory.dto';
+import { ReviewDto } from './dto/review.dto';
 export declare class DbService {
-  users: UserType[];
-  lessons: LessonType[];
+    users: UserDto[];
+    books: BookDto[];
+    inventory: InventoryDto[];
+    reviews: ReviewDto[];
 }

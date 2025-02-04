@@ -11,11 +11,13 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
-const lesson_module_1 = require("./lessons/lesson.module");
 const user_module_1 = require("./users/user.module");
 const auth_module_1 = require("./auth/auth.module");
 const base_filter_1 = require("./common/base-filter");
 const core_1 = require("@nestjs/core");
+const book_module_1 = require("./books/book.module");
+const inventory_module_1 = require("./inventory/inventory.module");
+const review_module_1 = require("./review/review.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,12 +29,15 @@ exports.AppModule = AppModule = __decorate([
                 driver: apollo_1.ApolloDriver,
                 context: function ({ req, res }) {
                     const headers = req?.headers;
+                    console.log(res);
                     return { req, res, headers };
                 },
             }),
-            lesson_module_1.LessonModule,
+            book_module_1.BookModule,
             user_module_1.UserModule,
             auth_module_1.AuthModule,
+            inventory_module_1.InventoryModule,
+            review_module_1.ReviewModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [{ provide: core_1.APP_FILTER, useClass: base_filter_1.AppExceptionsFilter }],
