@@ -1,5 +1,5 @@
 import { UserType } from 'src/users/user.type';
 export declare class LoginType {
-    user: UserType;
-    jwt: string;
+  user: UserType;
+  jwt: string;
 }

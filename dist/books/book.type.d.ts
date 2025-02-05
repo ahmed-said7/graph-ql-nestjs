@@ -1,4 +1,4 @@
 export declare class BookType {
-    id: string;
-    title: string;
+  id: string;
+  title: string;
 }

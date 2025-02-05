@@ -1,5 +1,5 @@
 export declare class BookDto {
-    title: string;
-    user: string;
-    id: string;
+  title: string;
+  user: string;
+  id: string;
 }

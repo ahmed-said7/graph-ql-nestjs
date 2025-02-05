@@ -9,24 +9,30 @@ import {
 import { v1 } from 'uuid';
 import { DbService } from 'src/db/db.service';
 import { UserType } from 'src/users/user.type';
-import { UseGuards } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import { AuthenticationGuard } from 'src/guards/auth.guard';
 import { BookType } from './book.type';
 import { CreateBookDto } from './dto/create.book.dto';
 import { BookDto } from 'src/db/dto/book.dto';
 import { InventoryType } from 'src/inventory/inventory.type';
 import { ReviewType } from 'src/review/review.type';
+import { PubSub } from 'graphql-subscriptions';
 
 @Resolver(() => BookType)
 @UseGuards(AuthenticationGuard)
 export class BookResolver {
-  constructor(private DbService: DbService) {}
+  constructor(
+    private DbService: DbService,
+    @Inject('PUB_SUB') private pubSub: PubSub,
+  ) {}
   @Mutation(() => BookType)
-  createBook(@Args('body') body: CreateBookDto) {
+  async createBook(@Args('body') body: CreateBookDto) {
     body.id = v1();
     this.DbService.books.push(body);
+    await this.pubSub.publish('bookAdded', { bookAdded: body });
     return body;
   }
+
   @Query(() => [BookType]!)
   getBooks() {
     return this.DbService.books;

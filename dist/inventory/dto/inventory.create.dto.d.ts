@@ -1,5 +1,5 @@
 export declare class CreateInventoryDto {
-    remaining: number;
-    book: string;
-    id: string;
+  remaining: number;
+  book: string;
+  id: string;
 }

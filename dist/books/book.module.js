@@ -10,6 +10,7 @@ exports.BookModule = void 0;
 const common_1 = require("@nestjs/common");
 const db_module_1 = require("../db/db.module");
 const book_resolver_1 = require("./book.resolver");
+const graphql_module_1 = require("../graphql/graphql.module");
 let BookModule = class BookModule {
 };
 exports.BookModule = BookModule;
@@ -17,7 +18,8 @@ exports.BookModule = BookModule = __decorate([
     (0, common_1.Module)({
         controllers: [],
         providers: [book_resolver_1.BookResolver],
-        imports: [db_module_1.DbModule],
+        imports: [db_module_1.DbModule, graphql_module_1.GraphqlModule],
+        exports: [book_resolver_1.BookResolver],
     })
 ], BookModule);
 //# sourceMappingURL=book.module.js.map

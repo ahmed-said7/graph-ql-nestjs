@@ -27,6 +27,9 @@ exports.AppModule = AppModule = __decorate([
             graphql_1.GraphQLModule.forRoot({
                 autoSchemaFile: true,
                 driver: apollo_1.ApolloDriver,
+                subscriptions: {
+                    'graphql-ws': true,
+                },
                 context: function ({ req, res }) {
                     const headers = req?.headers;
                     console.log(res);

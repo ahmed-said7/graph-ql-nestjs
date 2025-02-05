@@ -10,6 +10,7 @@ exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const user_resolver_1 = require("./user.resolver");
 const db_module_1 = require("../db/db.module");
+const graphql_module_1 = require("../graphql/graphql.module");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -17,7 +18,8 @@ exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
         controllers: [],
         providers: [user_resolver_1.UserResolver],
-        imports: [db_module_1.DbModule],
+        imports: [db_module_1.DbModule, graphql_module_1.GraphqlModule],
+        exports: [user_resolver_1.UserResolver],
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map

@@ -1,4 +1,4 @@
 export declare class InventoryType {
-    id: string;
-    remaining: number;
+  id: string;
+  remaining: number;
 }

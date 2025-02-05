@@ -1,7 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.ReviewDto = void 0;
-class ReviewDto {
-}
+class ReviewDto {}
 exports.ReviewDto = ReviewDto;
 //# sourceMappingURL=review.dto.js.map

@@ -18,31 +18,24 @@ var __decorate =
           r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
   };
-var __metadata =
-  (this && this.__metadata) ||
-  function (k, v) {
-    if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function')
-      return Reflect.metadata(k, v);
-  };
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.InventoryType = void 0;
-const graphql_1 = require('@nestjs/graphql');
-let InventoryType = class InventoryType {};
-exports.InventoryType = InventoryType;
-__decorate(
-  [(0, graphql_1.Field)(), __metadata('design:type', String)],
-  InventoryType.prototype,
-  'id',
-  void 0,
+exports.GraphqlModule = void 0;
+const common_1 = require('@nestjs/common');
+const graphql_subscriptions_1 = require('graphql-subscriptions');
+let GraphqlModule = class GraphqlModule {};
+exports.GraphqlModule = GraphqlModule;
+exports.GraphqlModule = GraphqlModule = __decorate(
+  [
+    (0, common_1.Module)({
+      providers: [
+        {
+          provide: 'PUB_SUB',
+          useValue: new graphql_subscriptions_1.PubSub(),
+        },
+      ],
+      exports: ['PUB_SUB'],
+    }),
+  ],
+  GraphqlModule,
 );
-__decorate(
-  [(0, graphql_1.Field)(), __metadata('design:type', Number)],
-  InventoryType.prototype,
-  'remaining',
-  void 0,
-);
-exports.InventoryType = InventoryType = __decorate(
-  [(0, graphql_1.ObjectType)()],
-  InventoryType,
-);
-//# sourceMappingURL=inventory.type.js.map
+//# sourceMappingURL=graphql.module.js.map

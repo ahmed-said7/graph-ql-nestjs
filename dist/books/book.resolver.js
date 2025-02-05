@@ -24,13 +24,16 @@ const create_book_dto_1 = require("./dto/create.book.dto");
 const book_dto_1 = require("../db/dto/book.dto");
 const inventory_type_1 = require("../inventory/inventory.type");
 const review_type_1 = require("../review/review.type");
+const graphql_subscriptions_1 = require("graphql-subscriptions");
 let BookResolver = class BookResolver {
-    constructor(DbService) {
+    constructor(DbService, pubSub) {
         this.DbService = DbService;
+        this.pubSub = pubSub;
     }
-    createBook(body) {
+    async createBook(body) {
         body.id = (0, uuid_1.v1)();
         this.DbService.books.push(body);
+        await this.pubSub.publish('bookAdded', { bookAdded: body });
         return body;
     }
     getBooks() {
@@ -53,7 +56,7 @@ __decorate([
     __param(0, (0, graphql_1.Args)('body')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_book_dto_1.CreateBookDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BookResolver.prototype, "createBook", null);
 __decorate([
     (0, graphql_1.Query)(() => [book_type_1.BookType]),
@@ -85,6 +88,8 @@ __decorate([
 exports.BookResolver = BookResolver = __decorate([
     (0, graphql_1.Resolver)(() => book_type_1.BookType),
     (0, common_1.UseGuards)(auth_guard_1.AuthenticationGuard),
-    __metadata("design:paramtypes", [db_service_1.DbService])
+    __param(1, (0, common_1.Inject)('PUB_SUB')),
+    __metadata("design:paramtypes", [db_service_1.DbService,
+        graphql_subscriptions_1.PubSub])
 ], BookResolver);
 //# sourceMappingURL=book.resolver.js.map

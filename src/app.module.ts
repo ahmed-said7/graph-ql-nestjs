@@ -15,6 +15,9 @@ import { ReviewModule } from './review/review.module';
     GraphQLModule.forRoot({
       autoSchemaFile: true,
       driver: ApolloDriver,
+      subscriptions: {
+        'graphql-ws': true, // Enable WebSocket support
+      },
       context: function ({ req, res }) {
         const headers = req?.headers;
         console.log(res);
